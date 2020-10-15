@@ -1,10 +1,11 @@
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 public class PersonManager implements IContact<Person> {
-    static List<Person> list= new ArrayList<>();
+    static List<Person> list= FileCsv.readFile();
 
 
 
@@ -49,6 +50,14 @@ public class PersonManager implements IContact<Person> {
             }
         }
         return false;
+    }
+    public List<Person> findAll(){
+        List<Person> list = new ArrayList<>();
+        Iterator<Person> iterator= list.iterator();
+        while (iterator.hasNext()){
+            list.add(iterator.next());
+        }
+        return list;
     }
     public Person insertInformation(){
         Person person= new Person();

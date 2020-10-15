@@ -25,6 +25,7 @@ public class Main {
         }
     }
     public static void main(String[] args) {
+        List<Person> list;
         menu();
         Scanner scanner= new Scanner(System.in);
         int i;
@@ -34,7 +35,9 @@ public class Main {
         }while (i>8 || i<0);
         switch (i){
             case 1:
-                display(FileCsv.readFile());
+                PersonManager personManager0= new PersonManager();
+                list=personManager0.findAll();
+                display(list);
                 break;
             case 2:
                 PersonManager personManager= new PersonManager();
