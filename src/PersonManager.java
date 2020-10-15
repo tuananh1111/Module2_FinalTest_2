@@ -5,36 +5,47 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PersonManager implements IContact<Person> {
-    static List<Person> list= FileCsv.readFile();
+    static List<Person> list;
+    static {
+        list= new ArrayList<>();
+        list.add(new Person("0964068256","HY","Nguyen","Male","Hung Yen","6.12.1998","tuananh@gmail.com"));
+        list.add(new Person("0888888888","HY","Anh","Male","Ha Noi","6.6.1998","tuananh@gmail.com"));
+    }
 
 
 
     @Override
     public void add(Person person) {
-        if (checkNumberPhone(person)){
+        if (!checkNumberPhone(person.getNumberPhone())){
             list.add(person);
-        }
+        }else System.out.println("Số điện thoại này đã có chủ");
     }
 
     @Override
     public void update(String numberPhone, Person person) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getNumberPhone()==numberPhone){
-                list.set(i,person);
+        if (checkNumberPhone(numberPhone)) {
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getNumberPhone() == numberPhone) {
+                    list.set(i, person);
+                }
             }
         }
     }
 
     @Override
-    public void delete(Person person) {
-        if (checkNumberPhone(person)){
-            list.remove(person);
-        }else
-            System.out.println("Không tìm được danh bạ với số điện thoại trên");
+    public List<Person> delete(String numberPhone) {
+        if (checkNumberPhone(numberPhone)){
+            for (int i = 0; i < list.size(); i++) {
+                if(list.get(i).getNumberPhone()== numberPhone){
+                    list.remove(list.get(i));
+                }
+            }
+        }
+        return list;
     }
 
     @Override
-    public List<Person> search(String name) {
+    public List<Person> searchByName(String name) {
         List<Person> personList= new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getNumberPhone()==name){
@@ -43,21 +54,21 @@ public class PersonManager implements IContact<Person> {
         }
         return personList;
     }
-    public boolean checkNumberPhone(Person person){
+    public boolean checkNumberPhone(String numberPhone){
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getNumberPhone()!= person.getNumberPhone()){
+            if (list.get(i).getNumberPhone().equals(numberPhone)){
               return true;
             }
         }
         return false;
     }
     public List<Person> findAll(){
-        List<Person> list = new ArrayList<>();
+        List<Person> list1 = new ArrayList<>();
         Iterator<Person> iterator= list.iterator();
         while (iterator.hasNext()){
-            list.add(iterator.next());
+            list1.add(iterator.next());
         }
-        return list;
+        return list1;
     }
     public Person insertInformation(){
         Person person= new Person();
